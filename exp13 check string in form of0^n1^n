@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char s[100];
+    int i, isBinary, hasValidPattern, countLeadingZeros, countTrailingZeros;
+    int length;
+
+    printf("Enter a binary string to check: ");
+    scanf("%s", s);
+
+    length = strlen(s);
+    isBinary = 1;
+
+    // Check if string contains only '0' and '1'
+    for (i = 0; i < length; i++) {
+        if (s[i] != '0' && s[i] != '1') {
+            isBinary = 0;
+            printf("Error: The character '%c' at position %d is not binary.\n", s[i], i);
+            break;
+        }
+    }
+
+    if (!isBinary) {
+        printf("The string is not a valid binary string.\n");
+        return 1;
+    }
+
+    // Count leading zeros
+    i = 0;
+    countLeadingZeros = 0;
+    while (s[i] == '0') {
+        countLeadingZeros++;
+        i++;
+    }
+
+    // Skip all '1's in the middle
+    while (s[i] == '1') {
+        i++;
+    }
+
+    // Count trailing zeros
+    countTrailingZeros = 0;
+    hasValidPattern = 1;
+    while (i < length) {
+        if (s[i] == '0') {
+            countTrailingZeros++;
+        } else {
+            hasValidPattern = 0;
+            break;
+        }
+        i++;
+    }
+
+    // Check if the pattern satisfies 0^n 1^m 0^n
+    if (hasValidPattern && countLeadingZeros == countTrailingZeros) {
+        printf("The string satisfies the condition 0^n 1^m 0^n.\n");
+        printf("String Accepted\n");
+    } else {
+        printf("The string does not satisfy the condition 0^n 1^m 0^n.\n");
+        printf("String Not Accepted\n");
+    }
+
+    return 0;
+}
